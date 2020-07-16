@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "StackOverflow focus",
+  "version": "0.1.0",
+  "icons": { "128": "icon.png" },
+  "description": "Lateral blog post demo extension",
+
+  "content_scripts": [{
+    "css": ["styles.css"],
+    "js": ["content.js"],
+    "matches": ["https://stackoverflow.com/questions/*"]
+  }],
+
+  "browser_action": {
+    "default_name": "StackOverflow Focus",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  }
+
+}

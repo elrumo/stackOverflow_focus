@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Popup</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+
+    <link href="Coral/coral.min.css" rel="stylesheet" type="text/css">
+    <link href="popup.css" rel="stylesheet" type="text/css">
+    <script src="Coral/vue.js"></script>
+  </head>
+
+  <body class="coral--lightest" style="padding: 20px;">
+    <div class="main-wrapper" id="app">
+      {{ message }}
+      <coral-switch checked="" >
+        Turn On/Off
+      </coral-switch>
+    </div>
+    <script unsafe-inline type="text/javascript">
+            var app = new Vue({
+        el: '#app',
+        data: {
+          message: 'Hello Vue!'
+        }
+      })
+    </script>
+    <!-- <script src="popup.js"></script> -->
+    <!-- <script src="Coral/coral.min.js"></script> -->
+  </body>
+
+</html>

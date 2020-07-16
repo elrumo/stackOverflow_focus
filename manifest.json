@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "StackOverflow focus",
+  "version": "0.1.0",
+  "icons": { "128": "icon.png" },
+  "description": "Remove all unnecessary clutter when looking for help on StackOverflow.",
+
+  "content_scripts": [{
+    "css": ["styles.css"],
+    "js": ["content.js"],
+    "matches": ["https://stackoverflow.com/questions/*"]
+  }]
+
+
+
+}
