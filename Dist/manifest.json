@@ -7,11 +7,15 @@
   "description": "Remove all unnecessary clutter when looking for help on StackOverflow.",
 
   "content_scripts": [{
-    "css": ["styles.css"],
     "js": ["content.js"],
     "matches": ["https://stackoverflow.com/questions/*"]
-  }]
-
+  }],
+  "permissions": ["tabs"],
+  "browser_action": {
+    "default_name": "StackOverflow Focus",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  }
 
 
 }

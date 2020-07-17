@@ -28,10 +28,9 @@ body {
 #mainbar{
   float: none !important;
   margin: auto !important;
-}
-#mainbar, .mainbar{
   width: 90% !important;
 }
+
 
 /* Center top question headder */
 #question-header{

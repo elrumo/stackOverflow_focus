@@ -1,1 +1,0 @@
-Remove all unnecessary clutter when looking for help on StackOverflow.
