@@ -1,5 +1,5 @@
 # Hide all the clutter
-***Also check out the open beta for a bookmarking service I'm working on, [WebBites.io](https://bit.ly/elias-webbites)***
+***Check out the open beta for a bookmarking service I'm working on, [WebBites.io](https://bit.ly/elias-webbites). All feedback is appreciated, you can do that [@elrumo](https://bit.ly/elias-twitter) on Twitter***
 
 Remove all unnecessary clutter when looking for help on StackOverflow.
 
