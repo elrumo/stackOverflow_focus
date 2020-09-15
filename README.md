@@ -1,12 +1,14 @@
 # Hide all the clutter
-Remove all unnecessary clutter when looking for help on StackOverflow. Until the plugin goes live on the Chrome store, you can download it here: [Link](https://github.com/elrumo/stackOverflow_focus/raw/master/Dist.zip)
+***Check out the open beta for a bookmarking service I'm working on, [WebBites.io](https://bit.ly/elias-webbites).
+<br>
+All feedback is appreciated, you can do that [@elrumo](https://bit.ly/elias-twitter) on Twitter***
 
-<figure>
-<img src="https://github.com/elrumo/stackOverflow_focus/raw/master/Social/Before.png" alt="After" style="width: 400px" />
-<figcaption>Before</figcaption
-</figure>
+Remove all unnecessary clutter when looking for help on StackOverflow.
 
-<figure>
-<img src="https://github.com/elrumo/stackOverflow_focus/raw/master/Social/After.png" alt="After" style="width: 400px" />
-<figcaption>After</figcaption>
-</figure>
+I'm working on adding more customsiation option and a version for Firefox. Star the project to know when it launches.
+
+<br>
+
+| <img src="https://github.com/elrumo/stackOverflow_focus/raw/master/Social/Before.png" alt="After" style="width: 400px"/> | <img src="https://github.com/elrumo/stackOverflow_focus/raw/master/Social/After.png" alt="After" style="width: 400px"/> |
+|:-:|:-:|
+| Before | After |
