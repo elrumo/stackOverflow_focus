@@ -1,10 +1,12 @@
 .main-wrapper{
-  width: 150%;
   padding: 0px 20px;
   margin: 10px;
 }
 
 body{
   padding: 10px;
-  width: 150px;
+}
+
+.setting {
+  margin-top: 1rem;
 }

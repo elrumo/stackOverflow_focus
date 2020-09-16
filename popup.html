@@ -9,9 +9,21 @@
 
   <body class="coral--light">
     <div class="main-wrapper" id="main-wrapper">
-      <coral-switch id="switch" checked>
-        <span id="switchLabel"> Enabled </span>
-      </coral-switch>
+      <h1>Stackoverflow Focus Mode</h1>
+      <div class="setting">
+        <coral-switch id="switch" checked>
+          <span id="switchLabel"> Enabled </span>
+        </coral-switch>
+      </div>
+
+      <div class="setting">
+        <label id="width-label">
+          Width in Percent
+        </label>
+        <br />
+        <coral-numberinput labelledby="width-label" min="1" max="100" value="65" id="width-setting"></coral-numberinput>
+      </div>
+
     </div>
 
     <script src="popup.js"></script>
