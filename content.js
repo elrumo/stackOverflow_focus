@@ -14,7 +14,7 @@ function updateSettings(callback) {
     }
 }
 
-function changeSyle(elementID, stypeProp, data){
+function changeStyle(elementID, stypeProp, data){
     document.getElementById(elementID).style[stypeProp] = data
 }
 
@@ -25,22 +25,22 @@ function focusStack(){
     document.getElementById("mainbar").parentElement.children[1].style.margin = "auto"
     document.getElementById("mainbar").parentElement.children[1].style.maxWidth = "728px"
 
-    changeSyle("sidebar", "display", "none")
-    changeSyle("left-sidebar", "display", "none")
+    changeStyle("sidebar", "display", "none")
+    changeStyle("left-sidebar", "display", "none")
     // Center main content
-    changeSyle("content", "border", "0px")
-    changeSyle("content", "width", width + "%")
-    changeSyle("content", "margin-bottom", "60px")
-    changeSyle("content", "border-radius", "10px")
-    changeSyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
+    changeStyle("content", "border", "0px")
+    changeStyle("content", "width", width + "%")
+    changeStyle("content", "margin-bottom", "60px")
+    changeStyle("content", "border-radius", "10px")
+    changeStyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
     // Center main content
-    changeSyle("mainbar", "float", "none")
-    changeSyle("mainbar", "margin", "auto")
-    changeSyle("mainbar", "width", "90%")
+    changeStyle("mainbar", "float", "none")
+    changeStyle("mainbar", "margin", "auto")
+    changeStyle("mainbar", "width", "90%")
     // Center top question headder
-    changeSyle("question-header", "margin", "auto")
-    changeSyle("question-header", "width", "100%")
-    changeSyle("question-header", "maxWidth", "728px")
+    changeStyle("question-header", "margin", "auto")
+    changeStyle("question-header", "width", "100%")
+    changeStyle("question-header", "maxWidth", "728px")
 
     // Footer
     document.querySelector(".site-footer--container").style.display = "none"
@@ -102,7 +102,7 @@ chrome.storage.local.onChanged.addListener(function (changes) {
 
         // Update the page directly if we are already focused
         if (isFocused) {
-            changeSyle("content", "width", width + "%")
+            changeStyle("content", "width", width + "%")
         }
     }
 });
