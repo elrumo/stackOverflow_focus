@@ -1,8 +1,24 @@
-function focusStack(){
-    function changeSyle(elementID, stypeProp, data){
-        document.getElementById(elementID).style[stypeProp] = data
-    }
+let isFocused = false;
+let width = 65;
 
+function updateSettings(callback) {
+    // Load width setting from storage
+    try {
+        chrome.storage.local.get(['width'], function (data) {
+            width = data.width;
+            callback();
+        })
+    } catch(e) {
+        // We haven't stored a width setting yet
+        callback()
+    }
+}
+
+function changeSyle(elementID, stypeProp, data){
+    document.getElementById(elementID).style[stypeProp] = data
+}
+
+function focusStack(){
     // Body
     document.getElementsByTagName("body")[0].style.background = "rgb(50,50,50)"
     // Center top question sub headder
@@ -13,7 +29,7 @@ function focusStack(){
     changeSyle("left-sidebar", "display", "none")
     // Center main content
     changeSyle("content", "border", "0px")
-    changeSyle("content", "width", "65%")
+    changeSyle("content", "width", width + "%")
     changeSyle("content", "margin-bottom", "60px")
     changeSyle("content", "border-radius", "10px")
     changeSyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
@@ -33,9 +49,11 @@ function focusStack(){
     if(document.querySelector(".js-dismissable-hero")){
         document.querySelector(".js-dismissable-hero").style.display = "none"
     }
+
+    isFocused = true;
 }
 
-focusStack()
+updateSettings(focusStack)
 
 function unFocusStack(){
     // Body
@@ -61,6 +79,8 @@ function unFocusStack(){
     if(document.querySelector(".js-dismissable-hero")){
         document.querySelector(".js-dismissable-hero").style = ""
     }
+
+    isFocused = false;
 }
 
 chrome.runtime.onMessage.addListener(
@@ -74,3 +94,15 @@ chrome.runtime.onMessage.addListener(
         console.log("Disabling Plugin");
     }
   });
+
+// Listen for changes of the width
+chrome.storage.local.onChanged.addListener(function (changes) {
+    if (changes.width) {
+        width = changes.width.newValue;
+
+        // Update the page directly if we are already focused
+        if (isFocused) {
+            changeSyle("content", "width", width + "%")
+        }
+    }
+});

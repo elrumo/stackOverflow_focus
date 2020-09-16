@@ -10,7 +10,7 @@
     "js": ["content.js"],
     "matches": ["https://stackoverflow.com/questions/*"]
   }],
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "storage"],
   "browser_action": {
     "default_name": "StackOverflow Focus",
     "default_icon": "icon.png",
