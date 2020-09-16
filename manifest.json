@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "StackOverflow focus",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "icons": { "128": "icon.png" },
   "description": "Remove all unnecessary clutter when looking for help on StackOverflow.",
 
