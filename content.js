@@ -30,6 +30,7 @@ function focusStack(){
     // Center main content
     changeStyle("content", "border", "0px")
     changeStyle("content", "width", width + "%")
+    changeStyle("content", "max-width", "initial")
     changeStyle("content", "margin-bottom", "60px")
     changeStyle("content", "border-radius", "10px")
     changeStyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
@@ -41,6 +42,11 @@ function focusStack(){
     changeStyle("question-header", "margin", "auto")
     changeStyle("question-header", "width", "100%")
     changeStyle("question-header", "maxWidth", "728px")
+
+    // Container
+    document.querySelector('.container').setAttribute('id', 'container')
+    changeStyle("container", "margin", 0)
+    changeStyle("container", "max-width", "initial")
 
     // Footer
     document.querySelector(".site-footer--container").style.display = "none"
