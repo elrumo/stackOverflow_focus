@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Popup</title>
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'"> -->
+    <link href="Coral/coral.min.css" rel="stylesheet" type="text/css">
+    <link href="popup.css" rel="stylesheet" type="text/css">
+    <link href="snack-helper.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body class="coral--light">
+    <div class="main-wrapper" id="main-wrapper">
+      
+      <h3 class="coral-Heading--S">Stackoverflow Focus Mode</h3>
+      
+      <hr class="coral-Divider--M">
+      
+      <div class="setting">
+        <coral-switch id="switch" checked>
+          <span id="switchLabel"> Enabled </span>
+        </coral-switch>
+      </div>
+      
+      
+      <div class="m-t-20 m-b-20 coral-Well">
+        
+        <h3 class="coral-Detail coral-Detail--light">Options</h3>
+
+
+        <div class="p-t-10">
+          <coral-switch id="switchShadow" checked>
+            <span id="switchShadowLabel"> Drop Shadow </span>
+          </coral-switch>
+        </div>
+
+        <div class="p-t-15 coral-Form coral-Form--vertical">
+          <label id="width-label" class="coral-Form-fieldlabel">
+            Width in Percent
+          </label>
+          <coral-numberinput
+            labelledby="width-label"
+            min="1"
+            max="100"
+            value="65"
+            id="width-setting"
+          ></coral-numberinput>
+        </div>
+
+        <form class="coral-Form coral-Form--vertical p-t-15">
+          <label id="colourInputLabel" class="coral-Form-fieldlabel">BG Colour</label>
+          <coral-colorinput 
+            id="colourInput" 
+            labelledby="colourInputLabel" 
+            showswatches="off" 
+            showproperties="on"
+            value="rgb(50,50,50)"
+          >
+          </coral-colorinput>
+        </form>
+    </div>
+    </div>
+
+    <script src="popup.js"></script>
+    <script src="Coral/coral.min.js"></script>
+  </body>
+
+</html>

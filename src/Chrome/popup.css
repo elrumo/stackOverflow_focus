@@ -1,12 +1,16 @@
 .main-wrapper{
   padding: 0px 20px;
-  margin: 10px;
+  margin: 0 10px 10px 10px;
 }
 
 body{
-  padding: 10px;
+  padding: 5px;
 }
 
 .setting {
   margin-top: 1rem;
+}
+
+h3{
+  line-height: 2.1rem;
 }

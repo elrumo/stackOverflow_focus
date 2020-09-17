@@ -1,11 +1,28 @@
 let isFocused = false;
-let width = 65;
+let width = "65";
+var isShadow = true;
+let bgColour = "rgb(50,50,50)"
 
 function updateSettings(callback) {
     // Load width setting from storage
     try {
         chrome.storage.local.get(['width'], function (data) {
-            width = data.width;
+            if (typeof data.width == "string") {
+                width = data.width;
+                // alert(width)
+            }
+            callback();
+        })
+        chrome.storage.local.get(['isShadow'], function (data) {
+            if (typeof data.isShadow == "boolean") {
+                isShadow = data.isShadow;
+            }
+            callback();
+        })
+        chrome.storage.local.get(['bgColour'], function (data) {
+            if (typeof data.bgColour == "string") {
+                bgColour = data.bgColour;
+            }
             callback();
         })
     } catch(e) {
@@ -14,13 +31,13 @@ function updateSettings(callback) {
     }
 }
 
-function changeStyle(elementID, stypeProp, data){
-    document.getElementById(elementID).style[stypeProp] = data
+function changeStyle(elementID, styleProp, data){
+    document.getElementById(elementID).style[styleProp] = data
 }
 
 function focusStack(){
     // Body
-    document.getElementsByTagName("body")[0].style.background = "rgb(50,50,50)"
+    document.getElementsByTagName("body")[0].style.background = bgColour
     // Center top question sub headder
     document.getElementById("mainbar").parentElement.children[1].style.margin = "auto"
     document.getElementById("mainbar").parentElement.children[1].style.maxWidth = "728px"
@@ -30,10 +47,16 @@ function focusStack(){
     // Center main content
     changeStyle("content", "border", "0px")
     changeStyle("content", "width", width + "%")
-    changeStyle("content", "max-width", "initial")
+    changeStyle("content", "max-width", "none")
+    changeStyle("content", "min-width", "500px")
     changeStyle("content", "margin-bottom", "60px")
     changeStyle("content", "border-radius", "10px")
-    changeStyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
+    if (isShadow) {
+        changeStyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
+    } else{
+        changeStyle("content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
+    }
+        
     // Center main content
     changeStyle("mainbar", "float", "none")
     changeStyle("mainbar", "margin", "auto")
@@ -103,12 +126,34 @@ chrome.runtime.onMessage.addListener(
 
 // Listen for changes of the width
 chrome.storage.local.onChanged.addListener(function (changes) {
+
     if (changes.width) {
         width = changes.width.newValue;
-
         // Update the page directly if we are already focused
         if (isFocused) {
             changeStyle("content", "width", width + "%")
         }
+    } 
+
+    if (changes.isShadow) {
+        isShadow = changes.isShadow.newValue;
+        // Update the page directly if we are already focused
+        if (isFocused) {
+            if (changes.isShadow.newValue) {
+                changeStyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
+            } else{
+                changeStyle("content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
+            }
+            
+        } 
     }
+
+    if (changes.bgColour) {
+        bgColour = changes.bgColour.newValue;
+        // alert(bgColour)
+        // Update the page directly if we are already focused
+        if (isFocused) {
+            document.getElementsByTagName("body")[0].style.background = bgColour
+        }
+    } 
 });
