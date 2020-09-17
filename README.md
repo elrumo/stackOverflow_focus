@@ -9,6 +9,10 @@ I'm working on adding more customsiation option and a version for Firefox. Star 
 
 <br>
 
+<img src="https://i.imgur.com/WGykSYS.png" alt="After" style="width: 350px"/>
+<img src="https://i.imgur.com/7HJsJ5v.png" alt="After" style="width: 350px"/>
+
 | <img src="https://github.com/elrumo/stackOverflow_focus/raw/master/Social/Before.png" alt="After" style="width: 400px"/> | <img src="https://github.com/elrumo/stackOverflow_focus/raw/master/Social/After.png" alt="After" style="width: 400px"/> |
 |:-:|:-:|
 | Before | After |
+
