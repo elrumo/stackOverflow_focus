@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "StackOverflow focus",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "icons": { "128": "icon.png" },
   "description": "Remove all unnecessary clutter when looking for help on StackOverflow.",
 
@@ -12,7 +12,7 @@
     "matches": ["https://stackoverflow.com/questions/*"],
     "run_at": "document_start"
   }],
-  "permissions": ["tabs", "storage"],
+  "permissions": ["activeTab", "storage"],
   "browser_action": {
     "default_name": "StackOverflow Focus",
     "default_icon": "icon.png",
