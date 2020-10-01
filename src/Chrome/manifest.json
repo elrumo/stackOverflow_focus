@@ -8,7 +8,8 @@
 
   "content_scripts": [{
     "js": ["content.js"],
-    "matches": ["https://*.stackoverflow.com/questions/*"]
+    "matches": ["https://stackoverflow.com/questions/*"],
+    "run_at": "document_start"
   }],
   "permissions": ["tabs", "storage"],
   "browser_action": {
@@ -16,6 +17,4 @@
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   }
-
-
 }

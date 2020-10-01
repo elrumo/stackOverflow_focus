@@ -3,6 +3,15 @@ let width = "65";
 var isShadow = true;
 let bgColour = "rgb(50,50,50)"
 
+const styleElement = document.createElement('style');
+styleElement.id = 'so-focus-styles';
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.head.appendChild(styleElement);
+});
+
+let styles = {};
+
 function updateSettings(callback) {
     // Load width setting from storage
     try {
@@ -31,83 +40,83 @@ function updateSettings(callback) {
     }
 }
 
-function changeStyle(elementID, styleProp, data){
-    document.getElementById(elementID).style[styleProp] = data
+function changeStyle(selector, styleProp, data) {
+    if (!styles[selector]) {
+        styles[selector] = {};
+    }
+
+    styles[selector][styleProp] = data;
+}
+
+// Write our styles to the stylesheet element
+function flushStyles() {
+    let stylesheet = '';
+    for(let selector in styles) {
+        stylesheet += `${selector} {`;
+
+        for(let prop in styles[selector]) {
+            stylesheet += `${prop}: ${styles[selector][prop]} !important;`;
+        }
+
+        stylesheet += '}';
+    }
+
+    styleElement.innerHTML = stylesheet;
 }
 
 function focusStack(){
     // Body
-    document.getElementsByTagName("body")[0].style.background = bgColour
+    changeStyle("body", "background", bgColour)
     // Center top question sub headder
-    document.getElementById("mainbar").parentElement.children[1].style.margin = "auto"
-    document.getElementById("mainbar").parentElement.children[1].style.maxWidth = "728px"
+    changeStyle(".inner-content:nth-child(1)", "margin", "auto")
+    changeStyle(".inner-content:nth-child(1)", "maxWidth", "728px")
 
-    changeStyle("sidebar", "display", "none")
-    changeStyle("left-sidebar", "display", "none")
+    changeStyle("#sidebar", "display", "none")
+    changeStyle("#left-sidebar", "display", "none")
     // Center main content
-    changeStyle("content", "border", "0px")
-    changeStyle("content", "width", width + "%")
-    changeStyle("content", "max-width", "none")
-    changeStyle("content", "min-width", "500px")
-    changeStyle("content", "margin-bottom", "60px")
-    changeStyle("content", "border-radius", "10px")
+    changeStyle("#content", "border", "0px")
+    changeStyle("#content", "width", width + "%")
+    changeStyle("#content", "max-width", "initial")
+    changeStyle("#content", "margin-bottom", "60px")
+    changeStyle("#content", "border-radius", "10px")
     if (isShadow) {
-        changeStyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
+        changeStyle("#content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
     } else{
-        changeStyle("content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
+        changeStyle("#content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
     }
-        
+
     // Center main content
-    changeStyle("mainbar", "float", "none")
-    changeStyle("mainbar", "margin", "auto")
-    changeStyle("mainbar", "width", "90%")
+    changeStyle("#mainbar", "float", "none")
+    changeStyle("#mainbar", "margin", "auto")
+    changeStyle("#mainbar", "width", "90%")
     // Center top question headder
-    changeStyle("question-header", "margin", "auto")
-    changeStyle("question-header", "width", "100%")
-    changeStyle("question-header", "maxWidth", "728px")
+    changeStyle("#question-header", "margin", "auto")
+    changeStyle("#question-header", "width", "100%")
+    changeStyle("#question-header", "maxWidth", "728px")
 
     // Container
-    document.querySelector('.container').setAttribute('id', 'container')
-    changeStyle("container", "margin", 0)
-    changeStyle("container", "max-width", "initial")
+    changeStyle(".container", "margin", 0)
+    changeStyle(".container", "max-width", "initial")
 
     // Footer
-    document.querySelector(".site-footer--container").style.display = "none"
+    changeStyle(".site-footer--container", "display", "none")
     // Hide top bar
-    document.querySelector(".top-bar").style.display = "none"
-    if(document.querySelector(".js-dismissable-hero")){
-        document.querySelector(".js-dismissable-hero").style.display = "none"
-    }
+    changeStyle(".top-bar", "display", "none")
+    changeStyle(".js-dismissable-hero", "display", "none")
+    
+    flushStyles();
 
     isFocused = true;
 }
 
-updateSettings(focusStack)
+updateSettings(() => {
+    document.addEventListener("DOMContentLoaded", focusStack);
+})
 
 function unFocusStack(){
     // Body
-    document.getElementsByTagName("body")[0].style = ""
-    // Center top question sub headder
-    document.getElementById("mainbar").parentElement.children[1].style = ""
-
-    document.getElementById("sidebar").style = ""
-    document.getElementById("left-sidebar").style = ""    
-    // Center main content
-    document.getElementById("content").style = ""
-
-    // Center main content
-    document.getElementById("mainbar").style = ""
-    // Center top question headder
-    document.getElementById("question-header").style = ""
-
-    // Hide top bar
-    document.querySelector(".top-bar").style = ""
-
-    // Footer
-    document.querySelector(".site-footer--container").style = ""
-    if(document.querySelector(".js-dismissable-hero")){
-        document.querySelector(".js-dismissable-hero").style = ""
-    }
+    styles = {};
+    flushStyles();
 
     isFocused = false;
 }
@@ -131,7 +140,8 @@ chrome.storage.local.onChanged.addListener(function (changes) {
         width = changes.width.newValue;
         // Update the page directly if we are already focused
         if (isFocused) {
-            changeStyle("content", "width", width + "%")
+            changeStyle(".content", "width", width + "%")
+            flushStyles();
         }
     } 
 
