@@ -12,31 +12,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let styles = {};
 
-function updateSettings(callback) {
+function reloadStyles() {
+    if (isFocused) {
+        focusStack();
+    }
+}
+
+function updateSettings() {
     // Load width setting from storage
     try {
         chrome.storage.local.get(['width'], function (data) {
             if (typeof data.width == "string") {
                 width = data.width;
-                // alert(width)
             }
-            callback();
+            reloadStyles();
         })
         chrome.storage.local.get(['isShadow'], function (data) {
             if (typeof data.isShadow == "boolean") {
                 isShadow = data.isShadow;
             }
-            callback();
+            reloadStyles();
         })
         chrome.storage.local.get(['bgColour'], function (data) {
             if (typeof data.bgColour == "string") {
                 bgColour = data.bgColour;
             }
-            callback();
+            reloadStyles();
         })
     } catch(e) {
         // We haven't stored a width setting yet
-        callback()
+        reloadStyles()
     }
 }
 
@@ -62,6 +67,8 @@ function flushStyles() {
     }
 
     styleElement.innerHTML = stylesheet;
+
+    document.body.style.visibility = 'visible';
 }
 
 function focusStack(){
@@ -109,9 +116,8 @@ function focusStack(){
     isFocused = true;
 }
 
-updateSettings(() => {
-    document.addEventListener("DOMContentLoaded", focusStack);
-})
+updateSettings();
+document.addEventListener("DOMContentLoaded", focusStack);
 
 function unFocusStack(){
     // Body

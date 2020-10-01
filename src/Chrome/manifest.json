@@ -8,6 +8,7 @@
 
   "content_scripts": [{
     "js": ["content.js"],
+    "css": ["content.css"],
     "matches": ["https://stackoverflow.com/questions/*"],
     "run_at": "document_start"
   }],
