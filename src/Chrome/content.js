@@ -3,37 +3,37 @@ let width = "65";
 var isShadow = true;
 let bgColour = "rgb(50,50,50)"
 
+// We add our focus styles using a custom <style> element on the page
+// This will create the element and add it to the documents head
 const styleElement = document.createElement('style');
 styleElement.id = 'so-focus-styles';
-
 document.addEventListener("DOMContentLoaded", () => {
     document.head.appendChild(styleElement);
 });
 
+// We save our styles in this object so we can easily overwrite and change values
+// This object uses the structure styles[CSS-Selector][Property Name] = value;
 let styles = {};
 
+// Reload and write styles if we are in focus mode
+// This will allow us to refresh all values
 function reloadStyles() {
     if (isFocused) {
         focusStack();
     }
 }
 
+// Load our settings from local storage
 function updateSettings() {
     // Load width setting from storage
     try {
-        chrome.storage.local.get(['width'], function (data) {
+        chrome.storage.local.get(['width', 'isShadow', 'bgColour'], function (data) {
             if (typeof data.width == "string") {
                 width = data.width;
             }
-            reloadStyles();
-        })
-        chrome.storage.local.get(['isShadow'], function (data) {
             if (typeof data.isShadow == "boolean") {
                 isShadow = data.isShadow;
             }
-            reloadStyles();
-        })
-        chrome.storage.local.get(['bgColour'], function (data) {
             if (typeof data.bgColour == "string") {
                 bgColour = data.bgColour;
             }
@@ -55,6 +55,7 @@ function changeStyle(selector, styleProp, data) {
 
 // Write our styles to the stylesheet element
 function flushStyles() {
+    // Generate a CSS Stylesheet from our styles object
     let stylesheet = '';
     for(let selector in styles) {
         stylesheet += `${selector} {`;
@@ -68,12 +69,14 @@ function flushStyles() {
 
     styleElement.innerHTML = stylesheet;
 
+    // Make sure our body element is visible
     document.body.style.visibility = 'visible';
 }
 
 function focusStack(){
     // Body
     changeStyle("body", "background", bgColour)
+
     // Center top question sub headder
     changeStyle(".inner-content:nth-child(1)", "margin", "auto")
     changeStyle(".inner-content:nth-child(1)", "maxWidth", "728px")
@@ -111,16 +114,17 @@ function focusStack(){
     changeStyle(".top-bar", "display", "none")
     changeStyle(".js-dismissable-hero", "display", "none")
     
+    // Write our changes to the site's stylesheet
     flushStyles();
 
     isFocused = true;
 }
 
-updateSettings();
 document.addEventListener("DOMContentLoaded", focusStack);
+updateSettings();
 
 function unFocusStack(){
-    // Body
+    // Simply remove all our custom styles
     styles = {};
     flushStyles();
 
@@ -146,7 +150,7 @@ chrome.storage.local.onChanged.addListener(function (changes) {
         width = changes.width.newValue;
         // Update the page directly if we are already focused
         if (isFocused) {
-            changeStyle(".content", "width", width + "%")
+            changeStyle("#content", "width", width + "%")
             flushStyles();
         }
     } 
@@ -156,11 +160,11 @@ chrome.storage.local.onChanged.addListener(function (changes) {
         // Update the page directly if we are already focused
         if (isFocused) {
             if (changes.isShadow.newValue) {
-                changeStyle("content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
+                changeStyle("#content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
             } else{
-                changeStyle("content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
+                changeStyle("#content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
             }
-            
+            flushStyles();
         } 
     }
 
@@ -169,7 +173,8 @@ chrome.storage.local.onChanged.addListener(function (changes) {
         // alert(bgColour)
         // Update the page directly if we are already focused
         if (isFocused) {
-            document.getElementsByTagName("body")[0].style.background = bgColour
+            changeStyle('body', 'background', bgColour);
+            flushStyles();
         }
     } 
 });
