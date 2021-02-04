@@ -5,9 +5,7 @@ All feedback is appreciated, you can do that [@elrumo](https://bit.ly/elias-twit
 
 Remove all unnecessary clutter when looking for help on StackOverflow.
 
-Chrome: chrome.google.com/webstore/detail/stackoverflow-focus/gaeipjkcdkpbfdfmakonllgiboaonopp
-
-Firefox: https://addons.mozilla.org/en-GB/firefox/addon/stackoverflow-focus/
+For [Chrome](chrome.google.com/webstore/detail/stackoverflow-focus/gaeipjkcdkpbfdfmakonllgiboaonopp), [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/stackoverflow-focus/) and soon Safari.
 
 <br>
 
