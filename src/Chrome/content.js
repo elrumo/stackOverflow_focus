@@ -104,9 +104,9 @@ function focusStack(){
     changeStyle("#content", "border-radius", borderRadius + "px");
 
     if (isShadow) {
-        changeStyle("#content", "box-shadow", shadow);
-    } else{
-        changeStyle("#content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
+      changeStyle("#content", "box-shadow", shadow);
+    } else {
+      changeStyle("#content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)");
     }
 
     // Center main content

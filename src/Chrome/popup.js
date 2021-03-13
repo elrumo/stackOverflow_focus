@@ -9,12 +9,24 @@ function sendMsg(msg) {
   });
 }
 
+function hideElement(element) {
+  console.log(`~ hide -> element`, element);
+  element.classList.add("hidden");
+}
+
+function showElement(element) {
+  console.log(`~ show -> element`, element);
+  element.classList.remove("hidden");
+}
+
 function toggleHidden(element) {
-  var isHidden = [...element.classList].find(function(cssClass) {return cssClass === 'hidden'})
+  var isHidden = [...element.classList].find(function (cssClass) {
+    return cssClass === "hidden";
+  });
   if (isHidden) {
-    element.classList.remove('hidden')
+    showElement(element);
   } else {
-    element.classList.add('hidden')
+    hideElement(element);
   }
 }
 
@@ -52,20 +64,24 @@ document.addEventListener('DOMContentLoaded', function () {
       })
 
       chrome.storage.local.get(['isShadow', 'shadow'], function (data) {
+        // Check if data.shadow exists on local storage
+        if (data.shadow) {
+          shadowInput.value = data.shadow;
+        } else {
+          shadowInput.value = "";
+        }
         // Check if data.isShadow exists on local storage
-        if (typeof data.isShadow == 'boolean') {
+        if (typeof data.isShadow == "boolean") {
           if (data.isShadow) {
-            switchShadow.setAttribute("checked")
-            if (data.shadow) {
-              shadowInput.value = data.shadow
-            } else {
-              shadowInput.value = ""
-            }
-          } else{
-            switchShadow.removeAttribute("checked")
+            switchShadow.setAttribute("checked");
+            showElement(shadowInput.parentElement);
+          } else {
+            switchShadow.removeAttribute("checked");
+            hideElement(shadowInput.parentElement);;
           }
         } else {
-          switchShadow.setAttribute("checked")
+          switchShadow.setAttribute("checked");
+          showElement(shadowInput.parentElement);
         }
       })
 
@@ -104,12 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Set shadow:
     switchShadow.on('change', function () {
       // Update the value in the storage
-      chrome.storage.local.set({ 
-        isShadow: switchShadow.hasAttribute("checked")
-      })
-
+      chrome.storage.local.set({
+        isShadow: switchShadow.hasAttribute("checked"),
+      });
       // Hide the custom shadow input
-      toggleHidden(shadowInput)
+      toggleHidden(shadowInput.parentElement);
     })
 
     // Set custom shadow:
