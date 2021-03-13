@@ -1,6 +1,9 @@
 let isFocused = false;
 let width = "65";
+let borderRadius = "10";
 var isShadow = true;
+var defaultShadow = "0px 15px 80px -10px rgba(0, 0, 0, 0.8)";
+let shadow = defaultShadow;
 let bgColour = "rgb(50,50,50)"
 
 // We add our focus styles using a custom <style> element on the page
@@ -27,18 +30,27 @@ function reloadStyles() {
 function updateSettings() {
     // Load width setting from storage
     try {
-        chrome.storage.local.get(['width', 'isShadow', 'bgColour'], function (data) {
+        chrome.storage.local.get(
+          ["width", "borderRadius", "isShadow", "shadow", "bgColour"],
+          function (data) {
             if (typeof data.width == "string") {
-                width = data.width;
+              width = data.width;
+            }
+            if (typeof data.borderRadius == "string") {
+              borderRadius = data.borderRadius;
             }
             if (typeof data.isShadow == "boolean") {
-                isShadow = data.isShadow;
+              isShadow = data.isShadow;
+            }
+            if (typeof data.shadow == "string") {
+              shadow = data.shadow;
             }
             if (typeof data.bgColour == "string") {
-                bgColour = data.bgColour;
+              bgColour = data.bgColour;
             }
             reloadStyles();
-        })
+          }
+        );
     } catch(e) {
         // We haven't stored a width setting yet
         reloadStyles()
@@ -61,7 +73,7 @@ function flushStyles() {
         stylesheet += `${selector} {`;
 
         for(let prop in styles[selector]) {
-            stylesheet += `${prop}: ${styles[selector][prop]} !important;`;
+            stylesheet += `${prop}: ${styles[selector][prop]};`;
         }
 
         stylesheet += '}';
@@ -87,10 +99,12 @@ function focusStack(){
     changeStyle("#content", "border", "0px")
     changeStyle("#content", "width", width + "%")
     changeStyle("#content", "max-width", "initial")
+    changeStyle("#content", "box-shadow", shadow);
     changeStyle("#content", "margin-bottom", "60px")
-    changeStyle("#content", "border-radius", "10px")
+    changeStyle("#content", "border-radius", borderRadius + "px");
+
     if (isShadow) {
-        changeStyle("#content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
+        changeStyle("#content", "box-shadow", shadow);
     } else{
         changeStyle("#content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
     }
@@ -153,19 +167,41 @@ chrome.storage.local.onChanged.addListener(function (changes) {
             changeStyle("#content", "width", width + "%")
             flushStyles();
         }
+    }
+    
+    if (changes.borderRadius) {
+      borderRadius = changes.borderRadius.newValue;
+      // Update the page directly if we are already focused
+      if (isFocused) {
+        changeStyle("#content", "border-radius", borderRadius + "px");
+        flushStyles();
+      }
     } 
 
     if (changes.isShadow) {
-        isShadow = changes.isShadow.newValue;
-        // Update the page directly if we are already focused
-        if (isFocused) {
-            if (changes.isShadow.newValue) {
-                changeStyle("#content", "box-shadow", "0px 15px 80px -10px rgba(0, 0, 0, 0.8)")
-            } else{
-                changeStyle("#content", "box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0)")
-            }
-            flushStyles();
-        } 
+      isShadow = changes.isShadow.newValue;
+      // Update the page directly if we are already focused
+      if (isFocused) {
+        if (changes.isShadow.newValue) {
+          changeStyle("#content", "box-shadow", shadow);
+        } else {
+          changeStyle(
+            "#content",
+            "box-shadow",
+            "0px 0px 0px 0px rgba(0, 0, 0, 0)"
+          );
+        }
+        flushStyles();
+      }
+    }
+
+    if (changes.shadow) {
+      shadow = changes.shadow.newValue || defaultShadow;
+      // Update the page directly if we are already focused
+      if (isFocused) {
+        changeStyle("#content", "box-shadow", shadow);
+        flushStyles();
+      }
     }
 
     if (changes.bgColour) {
