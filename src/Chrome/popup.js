@@ -9,6 +9,27 @@ function sendMsg(msg) {
   });
 }
 
+function hideElement(element) {
+  console.log(`~ hide -> element`, element);
+  element.classList.add("hidden");
+}
+
+function showElement(element) {
+  console.log(`~ show -> element`, element);
+  element.classList.remove("hidden");
+}
+
+function toggleHidden(element) {
+  var isHidden = [...element.classList].find(function (cssClass) {
+    return cssClass === "hidden";
+  });
+  if (isHidden) {
+    showElement(element);
+  } else {
+    hideElement(element);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   var switchBtn = document.getElementById("switch")
 
@@ -22,35 +43,45 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
-  var widthSetting = document.getElementById('width-setting')
-  var switchShadow = document.getElementById('switchShadow')
+  var switchShadow = document.getElementById("switchShadow");
+  var shadowInput = document.getElementById("shadowInput");
+  var borderRadiusInput = document.getElementById("borderRadiusInput");
+  var widthInput = document.getElementById("widthInput");
   var colourInput = document.getElementById('colourInput')
 
   // Wait until coral has loaded the element
-  Coral.commons.ready(widthSetting, function() {
+  Coral.commons.ready(widthInput, function() {
     
     // Load saves settings from local storage
     try {
       chrome.storage.local.get(['width'], function (data) {
-        console.log(data.width);
         // Check if local storage width is empty
         if (typeof data.width != 'string') {
-          widthSetting.value = 65;
-        } else{
-          widthSetting.value = data.width;
+          widthInput.value = 65;
+        } else {
+          widthInput.value = data.width;
         }
       })
 
-      chrome.storage.local.get(['isShadow'], function (data) {
+      chrome.storage.local.get(['isShadow', 'shadow'], function (data) {
+        // Check if data.shadow exists on local storage
+        if (data.shadow) {
+          shadowInput.value = data.shadow;
+        } else {
+          shadowInput.value = "";
+        }
         // Check if data.isShadow exists on local storage
-        if (typeof data.isShadow == 'boolean') {
+        if (typeof data.isShadow == "boolean") {
           if (data.isShadow) {
-            switchShadow.setAttribute("checked")
-          } else{
-            switchShadow.removeAttribute("checked")
+            switchShadow.setAttribute("checked");
+            showElement(shadowInput.parentElement);
+          } else {
+            switchShadow.removeAttribute("checked");
+            hideElement(shadowInput.parentElement);;
           }
-        }else{
-          switchShadow.setAttribute("checked")
+        } else {
+          switchShadow.setAttribute("checked");
+          showElement(shadowInput.parentElement);
         }
       })
 
@@ -58,8 +89,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check if local storage width is empty
         if (typeof data.bgColour != 'string') {
           colourInput.value = "rgb(50,50,50)";
-        } else{
+        } else {
           colourInput.value = data.bgColour;
+        }
+      })
+
+      chrome.storage.local.get(['borderRadius'], function (data) {
+        // Check if local storage width is empty
+        if (typeof data.borderRadius != 'string') {
+          borderRadiusInput.value = 10;
+        } else {
+          borderRadiusInput.value = data.borderRadius;
         }
       })
 
@@ -70,21 +110,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Set width:
-    widthSetting.on('change', function () {
+    widthInput.on('change', function () {
       // Update the value in the storage
       chrome.storage.local.set({ 
-        width: widthSetting.value
+        width: widthInput.value
       })
     })
 
     // Set shadow:
     switchShadow.on('change', function () {
       // Update the value in the storage
+      chrome.storage.local.set({
+        isShadow: switchShadow.hasAttribute("checked"),
+      });
+      // Hide the custom shadow input
+      toggleHidden(shadowInput.parentElement);
+    })
+
+    // Set custom shadow:
+    shadowInput.on('change', function () {
+      // Update the value in the storage
       chrome.storage.local.set({ 
-        isShadow: switchShadow.hasAttribute("checked")
+        shadow: shadowInput.value
       })
     })
 
+    // Set border-radius:
+    borderRadiusInput.on('change', function () {
+      // Update the value in the storage
+      chrome.storage.local.set({ 
+        borderRadius: borderRadiusInput.value
+      })
+    })
+
+    // Set background colour
     colourInput.on('change', function () {
       // Update the value in the storage
       chrome.storage.local.set({ 

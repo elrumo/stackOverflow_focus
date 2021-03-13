@@ -26,28 +26,52 @@
         
         <h3 class="coral-Detail coral-Detail--light">Options</h3>
 
-
         <div class="p-t-10">
           <coral-switch id="switchShadow" checked>
-            <span id="switchShadowLabel"> Drop Shadow </span>
+            <span id="switchShadowLabel">Drop Shadow</span>
           </coral-switch>
+        </div>
+
+        <div class="p-t-15 coral-Form--vertical">
+          <label id="custom-shadow-label" class="coral-Form-fieldlabel">
+            Define a custom CSS drop shadow
+          </label>
+          <input
+            is="coral-textfield"
+            id="shadowInput" 
+            labelledby="custom-shadow-label"
+            placeholder="valid CSS box-shadow"
+          ></input>
+        </div>
+
+        <div class="p-t-15 coral-Form coral-Form--vertical">
+          <label id="border-radius-label" class="coral-Form-fieldlabel">
+            Border radius
+          </label>
+          <coral-numberinput
+            labelledby="border-radius-label"
+            min="0"
+            max="100"
+            value="10"
+            id="borderRadiusInput"
+          ></coral-numberinput>
         </div>
 
         <div class="p-t-15 coral-Form coral-Form--vertical">
           <label id="width-label" class="coral-Form-fieldlabel">
-            Width in Percent
+            Width in percent
           </label>
           <coral-numberinput
             labelledby="width-label"
             min="1"
             max="100"
             value="65"
-            id="width-setting"
+            id="widthInput"
           ></coral-numberinput>
         </div>
 
         <form class="coral-Form coral-Form--vertical p-t-15">
-          <label id="colourInputLabel" class="coral-Form-fieldlabel">BG Colour</label>
+          <label id="colourInputLabel" class="coral-Form-fieldlabel">Background colour</label>
           <coral-colorinput 
             id="colourInput" 
             labelledby="colourInputLabel" 
