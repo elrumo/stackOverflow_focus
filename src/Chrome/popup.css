@@ -14,3 +14,7 @@ body{
 h3{
   line-height: 2.1rem;
 }
+
+.hidden {
+  display: none;
+}
