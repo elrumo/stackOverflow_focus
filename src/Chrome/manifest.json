@@ -2,14 +2,22 @@
   "manifest_version": 2,
 
   "name": "StackOverflow focus",
-  "version": "1.2.1",
+  "version": "1.3",
   "icons": { "128": "icon.png" },
   "description": "Remove all unnecessary clutter when looking for help on StackOverflow.",
 
   "content_scripts": [{
     "js": ["content.js"],
     "css": ["content.css"],
-    "matches": ["https://stackoverflow.com/questions/*"],
+    "matches": [
+      "https://stackoverflow.com/questions/*",
+      "https://superuser.com/questions/*",
+      "https://serverfault.com/questions/*",
+      "https://askubuntu.com/questions/*",
+      "https://askubuntu.com/questions/*",
+      "https://ja.stackexchange.com/questions/*",
+      "https://*.stackexchange.com/questions/*"
+    ],
     "run_at": "document_start"
   }],
   "permissions": ["activeTab", "storage"],

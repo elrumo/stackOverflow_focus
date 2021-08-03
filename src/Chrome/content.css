@@ -1,3 +1,10 @@
 body {
   visibility: hidden;
 }
+
+header{
+  width: 65% !important;
+  margin: 20px auto !important;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
